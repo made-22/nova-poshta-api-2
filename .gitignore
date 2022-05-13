@@ -6,3 +6,7 @@
 tests/cover
 vendor/
 web/
+.docker
+docker-compose.yml
+xdebug.log
+.phpunit.result.cache
