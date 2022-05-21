@@ -75,6 +75,7 @@ https://github.com/lis-dev/nova-poshta-api-2/archive/master.zip
 ```php
     
     $requestSettings = new ApiRequestSettings(
+        'https://api.novaposhta.ua/v2.0'
         'Ваш_ключ_API_2.0'
     );
     
@@ -104,6 +105,7 @@ https://github.com/lis-dev/nova-poshta-api-2/archive/master.zip
 
 ```php
     $requestSettings = new ApiRequestSettings(
+        'https://api.novaposhta.ua/v2.0',
         'Ваш_ключ_API_2.0'
     );
     

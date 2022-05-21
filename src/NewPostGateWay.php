@@ -10,8 +10,6 @@ use Throwable;
 
 final class NewPostGateWay
 {
-    private const API_URI = 'https://api.novaposhta.ua/v2.0';
-
     private Client $httpClient;
 
     /**
@@ -56,7 +54,11 @@ final class NewPostGateWay
     {
         $endpointType = $this->requestData->getRequestSettings()->getFormat() === 'xml' ? 'xml' : 'json';
 
-        return sprintf('%s/%s/', self::API_URI, $endpointType);
+        return sprintf(
+            '%s/%s/',
+            $this->requestData->getRequestSettings()->getApiUrl(),
+            $endpointType
+        );
     }
 
     /**

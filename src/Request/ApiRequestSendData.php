@@ -2,7 +2,8 @@
 
 namespace LisDev\Request;
 
-use SimpleXMLElement;
+use LisDev\Request\ApiRequestDataFormatters\RequestDataJsonFormatter;
+use LisDev\Request\ApiRequestDataFormatters\RequestDataXmlFormatter;
 
 final class ApiRequestSendData
 {
@@ -38,14 +39,10 @@ final class ApiRequestSendData
     public function get(): string
     {
         if ($this->requestSettings->getFormat() === 'xml') {
-            return $this->convertToXml(
-                $this->generateDataArray()
-            );
+            return (new RequestDataXmlFormatter())->convert($this->generateDataArray());
         }
 
-        return $this->convertToJson(
-            $this->generateDataArray()
-        );
+        return (new RequestDataJsonFormatter())->convert($this->generateDataArray());
     }
 
     /**
@@ -60,38 +57,5 @@ final class ApiRequestSendData
             'language' => $this->requestSettings->getLanguage(),
             'methodProperties' => $this->requestModelData->getParams(),
         ];
-    }
-
-    /**
-     * @param array $data
-     * @return string
-     */
-    private function convertToJson(array $data): string
-    {
-        return (string)json_encode($data);
-    }
-
-    /**
-     * @param array $data
-     * @param SimpleXMLElement|null $xml
-     * @return string
-     */
-    private function convertToXml(array $data, ?SimpleXMLElement $xml = null): string
-    {
-        $xml = $xml ?? new SimpleXMLElement('<root/>');
-
-        foreach ($data as $key => $value) {
-            if (is_numeric($key)) {
-                $key = 'item';
-            }
-
-            if (is_array($value)) {
-                return $this->convertToXml($value, $xml->addChild($key));
-            } else {
-                $xml->addChild($key, $value);
-            }
-        }
-
-        return (string)$xml->asXML();
     }
 }
